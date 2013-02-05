@@ -32,6 +32,10 @@ func NewUniform(dataType int) *Uniform {
 	return &Uniform{make([]float32, size), dataType, 0, true}
 }
 
+func (u *Uniform) Priority() int {
+	return MAT_PRIORITY_UNIFORM
+}
+
 func (u *Uniform) PreRender(ctx Context) {
 	if u.changed {
 		u.changed = false

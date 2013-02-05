@@ -1,5 +1,10 @@
 package gfx
 
+const (
+	MAT_PRIORITY_SHADER = iota
+	MAT_PRIORITY_UNIFORM
+)
+
 type Parameter interface {
 	Priority() int
 	PreRender(ctx Context)
