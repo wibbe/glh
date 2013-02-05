@@ -25,10 +25,6 @@ func (self Vector3) Mul(scalar float32) Vector3 {
 	return Vector3{self.X * scalar, self.Y * scalar, self.Z * scalar}
 }
 
-func (self Vector3) Dot(vec Vector3) float32 {
-	return (self.X * vec.X) + (self.Y * vec.Y) + (self.Z * vec.Z)
-}
-
 func (v Vector3) Length() float32 {
 	return float32(math.Sqrt(float64((v.X * v.X) + (v.Y * v.Y) + (v.Z * v.Z))))
 }
