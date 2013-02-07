@@ -5,18 +5,6 @@ const (
 	MAT_PRIORITY_UNIFORM
 )
 
-type Parameter interface {
-	Priority() int
-	PreRender(ctx Context)
-	PostRender(ctx Context)
-}
-
-type parameters []Parameter
-
-func (p parameters) Len() int           { return len(p) }
-func (p parameters) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
-func (p parameters) Less(i, j int) bool { return p[i].Priority() > p[j].Priority() }
-
 type Material struct {
 	params parameters
 }

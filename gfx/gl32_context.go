@@ -2,6 +2,12 @@ package gfx
 
 import (
 	gl "github.com/wibbe/glh/gl32c"
+	"github.com/wibbe/glh/math"
+)
+
+const (
+	GL_PRIORITY_SHADER = iota
+	GL_PRIORITY_UNIFORM
 )
 
 type materialPair struct {
@@ -20,8 +26,20 @@ func NewGL32Context() *glContext {
 	}
 }
 
-func (ctx *glContext) Clear() {
-	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+func (ctx *glContext) Clear(colorBuffer, depthBuffer, stencilBuffer bool) {
+	var bits gl.Bitfield = 0
+
+	if colorBuffer {
+		bits = bits | gl.COLOR_BUFFER_BIT
+	}
+	if depthBuffer {
+		bits = bits | gl.DEPTH_BUFFER_BIT
+	}
+	if stencilBuffer {
+		bits = bits | gl.STENCIL_BUFFER_BIT
+	}
+
+	gl.Clear(bits)
 }
 
 func (ctx *glContext) PushMaterial(mat *Material, mergeStrategy int) {
@@ -33,4 +51,11 @@ func (ctx *glContext) PopMaterial() {
 
 func (ctx *glContext) UseCamera(camera *Camera) {
 	ctx.camera = camera
+}
+
+func (ctx *glContext) Draw(geom Geometry) {
+	ctx.applyMaterials()
+}
+
+func (ctx *glContext) applyMaterials() {
 }

@@ -5,11 +5,12 @@ import (
 	"github.com/wibbe/glh/math"
 )
 
-const (
-	UNIFORM_TYPE_VEC3 = iota
-	UNIFORM_TYPE_VEC4
-	UNIFORM_TYPE_MAT4
-)
+type Uniform interface {
+	Parameter
+	Type() int
+	SetVector3(math.Vector3)
+	SetMatrix4(math.Matrix4)
+}
 
 type Uniform struct {
 	value    []float32
