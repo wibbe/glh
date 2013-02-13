@@ -1,8 +1,11 @@
 package gfx
 
 import (
+	"errors"
+	"fmt"
+	"github.com/wibbe/glh/color"
 	gl "github.com/wibbe/glh/gl32c"
-	"github.com/wibbe/glh/math"
+	_ "github.com/wibbe/glh/math"
 )
 
 const (
@@ -15,18 +18,34 @@ type materialPair struct {
 	strategy int
 }
 
-type glContext struct {
+type gl32Context struct {
 	materialStack []materialPair
 	camera        *Camera
 }
 
-func NewGL32Context() *glContext {
-	return &glContext{
-		materialStack: make([]materialPair, 0, 16),
+func NewGL32Context() (*gl32Context, error) {
+	if err := gl.Init(); err != nil {
+		return nil, errors.New(fmt.Sprintf("Could not create OpenGL context: %s", err))
 	}
+
+	return &gl32Context{
+		materialStack: make([]materialPair, 0, 16),
+	}, nil
 }
 
-func (ctx *glContext) Clear(colorBuffer, depthBuffer, stencilBuffer bool) {
+func (ctx *gl32Context) NewShader(name, vertexCode, fragmentCode string) (Shader, error) {
+	return newGL32Shader(name, vertexCode, fragmentCode)
+}
+
+func (ctx *gl32Context) NewBuffer(bufferType, usage int) Buffer {
+	return nil
+}
+
+func (ctx *gl32Context) SetClearColor(c color.Color) {
+	gl.ClearColor(gl.Float(c.R), gl.Float(c.G), gl.Float(c.B), gl.Float(c.A))
+}
+
+func (ctx *gl32Context) Clear(colorBuffer, depthBuffer, stencilBuffer bool) {
 	var bits gl.Bitfield = 0
 
 	if colorBuffer {
@@ -42,20 +61,20 @@ func (ctx *glContext) Clear(colorBuffer, depthBuffer, stencilBuffer bool) {
 	gl.Clear(bits)
 }
 
-func (ctx *glContext) PushMaterial(mat *Material, mergeStrategy int) {
+func (ctx *gl32Context) PushMaterial(mat *Material, mergeStrategy int) {
 	ctx.materialStack = append(ctx.materialStack, materialPair{mat, mergeStrategy})
 }
 
-func (ctx *glContext) PopMaterial() {
+func (ctx *gl32Context) PopMaterial() {
 }
 
-func (ctx *glContext) UseCamera(camera *Camera) {
+func (ctx *gl32Context) UseCamera(camera *Camera) {
 	ctx.camera = camera
 }
 
-func (ctx *glContext) Draw(geom Geometry) {
+func (ctx *gl32Context) Draw(geom Geometry) {
 	ctx.applyMaterials()
 }
 
-func (ctx *glContext) applyMaterials() {
+func (ctx *gl32Context) applyMaterials() {
 }
