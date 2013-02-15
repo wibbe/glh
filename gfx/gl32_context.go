@@ -73,8 +73,19 @@ func (ctx *gl32Context) UseCamera(camera *Camera) {
 }
 
 func (ctx *gl32Context) Draw(geom Geometry) {
-	ctx.applyMaterials()
+	ctx.preRenderMaterials()
+
+	ctx.postRenderMaterials()
 }
 
-func (ctx *gl32Context) applyMaterials() {
+func (ctx *gl32Context) preRenderMaterials() {
+	for _, mat := range ctx.materialStack {
+		mat.mat.PreRender(ctx)
+	}
+}
+
+func (ctx *gl32Context) postRenderMaterials() {
+	for _, mat := range ctx.materialStack {
+		mat.mat.PostRender(ctx)
+	}
 }

@@ -19,14 +19,14 @@ func NewMaterial() *Material {
 }
 
 func (m *Material) PreRender(ctx Context) {
-	for i, _ := range m.params {
-		m.params[i].PreRender(ctx)
+	for _, param := range m.params {
+		param.PreRender(ctx)
 	}
 }
 
 func (m *Material) PostRender(ctx Context) {
-	for i, _ := range m.params {
-		m.params[i].PostRender(ctx)
+	for _, param := range m.params {
+		param.PostRender(ctx)
 	}
 }
 
