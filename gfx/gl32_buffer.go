@@ -12,7 +12,7 @@ type gl32Buffer struct {
 }
 
 func newGL32Buffer(bufferType, usage int) *gl32Buffer {
-
+	return nil
 }
 
 func (b *gl32Buffer) Bind(ctx Context) {
