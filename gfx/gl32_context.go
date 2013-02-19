@@ -72,7 +72,7 @@ func (ctx *gl32Context) UseCamera(camera *Camera) {
 	ctx.camera = camera
 }
 
-func (ctx *gl32Context) Draw(geom Geometry) {
+func (ctx *gl32Context) Draw(transform math.Matrix4, geom Geometry) {
 	ctx.preRenderMaterials()
 
 	ctx.postRenderMaterials()

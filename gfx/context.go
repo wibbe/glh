@@ -75,5 +75,5 @@ type Context interface {
 	PushMaterial(material *Material, mergeStartegy int)
 	PopMaterial()
 
-	Draw(geom Geometry)
+	Draw(transform math.Matrix4, geom Geometry)
 }

@@ -5,5 +5,6 @@ import (
 )
 
 type Camera struct {
-	projection math.Matrix4
+	Projection math.Matrix4
+	View       math.Matrix4
 }

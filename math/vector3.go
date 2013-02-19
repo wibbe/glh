@@ -33,6 +33,10 @@ func (v1 Vector3) Dot(v2 Vector3) float32 {
 	return (v1.X * v2.X) + (v1.Y * v2.Y) + (v1.Z * v2.Z)
 }
 
+func (a Vector3) Cross(b Vector3) Vector3 {
+	return Vector3{a.Y*b.Z - a.Z*b.Y, a.Z*b.X - a.X*b.Z, a.X*b.Y - a.Y*b.X}
+}
+
 func (v Vector3) String() string {
 	return fmt.Sprintf("[%f, %f, %f]", v.X, v.Y, v.Z)
 }
